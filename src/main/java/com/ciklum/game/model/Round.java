@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode
 public class Round {
-    private GameElement firstUserSelection;
-    private GameElement secondUserSelection;
-    private RoundResult result;
+    private final GameElement firstUserSelection;
+    private final GameElement secondUserSelection;
+    private final RoundResult result;
 }
