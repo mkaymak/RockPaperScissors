@@ -1,4 +1,4 @@
-package com.ciklum.game.service;
+package com.ciklum.game.utils;
 
 import com.ciklum.game.model.RoundResult;
 import com.fasterxml.jackson.databind.util.Converter;

@@ -16,7 +16,7 @@ public class GameService {
     private final GameStorage gameStorage = GameStorageFactory.getGameStorage(GAME_STORAGE_TYPE);
     private Game game = new Game();
 
-    private final ImmutableMap<List<GameElement>,RoundResult> possibleGameResults =
+    private static final ImmutableMap<List<GameElement>,RoundResult> possibleGameResults =
             new ImmutableMap.Builder<List<GameElement>,RoundResult>()
                     .put(Arrays.asList(GameElement.ROCK, GameElement.SCISSORS), RoundResult.FIRST_PLAYER_WINS)
                     .put(Arrays.asList(GameElement.ROCK, GameElement.PAPER), RoundResult.SECOND_PLAYER_WINS)
