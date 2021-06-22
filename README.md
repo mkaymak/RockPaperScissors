@@ -6,10 +6,16 @@ This is a web project (only the back-end part, Java 8) for playing random rounds
 Rules of the game is below in case you’re not familiar:
 https://en.wikipedia.org/wiki/Rock_paper_scissors
 
-### Rules
-There are two kinds of players:
-  * The first one selection is always rock.
+### Requirements
+* Creates an automatic round,
+  * The first player's selection is always rock.
   * Second's choice is created randomly.
+* Provides the total number of rounds played (includes the rounds of restarted games).
+* Provides the rounds played: 1st and 2nd players choices
+and the result of the round (that could be player 1
+wins, player 2 wins or draw)
+* Restarts game which sets round count of the game to 0 and 
+starts a new game
 
 ### What's Inside?
   * Spring Boot,
