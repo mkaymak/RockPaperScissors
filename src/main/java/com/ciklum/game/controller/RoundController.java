@@ -11,9 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/game")
 public class RoundController {
 
-    @Autowired
     GameService gameService;
 
+    @Autowired
     RoundController(GameService gameService) {
         this.gameService = gameService;
     }

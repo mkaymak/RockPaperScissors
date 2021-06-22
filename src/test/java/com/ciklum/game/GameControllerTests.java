@@ -9,6 +9,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,19 +18,22 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
 @AutoConfigureMockMvc
 @RunWith(SpringRunner.class)
 class GameControllerTests {
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
+    private final String TOTAL_NUMBER_OF_ROUNDS_SERVICE = "/games/numberOfRounds";
+    private final String NUMBER_OF_GIVEN_RESULT_SERVICE = "/games/numberOfGivenResult";
+    private final String PLAY_ROUND_SERVICE = "/game/round/play";
+    private final String SERVICE_CALL_ERROR_MESSAGE = "Cannot call {} mockMvc service";
 
     @MockBean
     GameService gameService;
@@ -49,24 +54,23 @@ class GameControllerTests {
     @Test
     void shouldReturnTotalNumberOfRounds() {
         try {
-            this.mockMvc.perform(get("/games/numberOfRounds"))
+            this.mockMvc.perform(get(TOTAL_NUMBER_OF_ROUNDS_SERVICE))
                         .andExpect(status().isOk())
-                        .andExpect((ResultMatcher) content().string("10"));
+                        .andExpect(content().string("10"));
         } catch (Exception e) {
-            //TODO: add logger
-            e.printStackTrace();
+            logger.error(SERVICE_CALL_ERROR_MESSAGE, TOTAL_NUMBER_OF_ROUNDS_SERVICE);
         }
     }
 
     @Test
     void shouldReturnNumberOfGivenResult() {
         try {
-            this.mockMvc.perform(get("/games/numberOfGivenResult")
+            this.mockMvc.perform(get(NUMBER_OF_GIVEN_RESULT_SERVICE)
                         .param("result", "FIRST_PLAYER_WINS"))
                         .andExpect(status().isOk())
-                        .andExpect((ResultMatcher) content().string(containsString("3")));
+                        .andExpect(content().string(containsString("3")));
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(SERVICE_CALL_ERROR_MESSAGE, NUMBER_OF_GIVEN_RESULT_SERVICE);
         }
     }
 
@@ -74,9 +78,9 @@ class GameControllerTests {
     void shouldReturnPlayedGame() {
         String gameJson = createGameJsonString(expectedGame);
         try {
-            this.mockMvc.perform(get("/game/round/play"))
-                        .andDo(print())
-                        .andExpect((ResultMatcher) content().json(gameJson));
+            assert gameJson != null;
+            this.mockMvc.perform(get(PLAY_ROUND_SERVICE))
+                        .andExpect(content().json(gameJson));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -87,7 +91,7 @@ class GameControllerTests {
         try {
             return objMapper.writeValueAsString(expectedGame);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
+            logger.error("Cannot convert Game object to JSON string");
             return null;
         }
     }
