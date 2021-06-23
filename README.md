@@ -25,13 +25,13 @@ starts a new game
   * MockMvc (to test controllers)
   
 ### REST Services
-* GET /game/round/play
+* **GET /game/round/play
     * Service which creates a round for the current game (second user selection is produced randomly).
-* GET /game/restart
+* **GET /game/restart
     * Service which starts a new game and saves the last game.
-* GET /games/numberOfRounds
+* **GET /games/numberOfRounds
     * Service for providing the total number of rounds (including the restarted games)
-* GET /games/numberOfGivenResult
+* **GET /games/numberOfGivenResult
     * Service for providing the total number of requested result (first user or second user wins or draw, including the restarted games)
 
 
