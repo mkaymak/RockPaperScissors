@@ -25,14 +25,15 @@ starts a new game
   * MockMvc (to test controllers)
   
 ### REST Services
-* **GET /game/round/play
+* `GET /game/round/play`
     * Service which creates a round for the current game (second user selection is produced randomly).
-* **GET /game/restart
+* `GET /game/restart`
     * Service which starts a new game and saves the last game.
-* **GET /games/numberOfRounds
+* `GET /games/numberOfRounds`
     * Service for providing the total number of rounds (including the restarted games)
-* **GET /games/numberOfGivenResult
-    * Service for providing the total number of requested result (first user or second user wins or draw, including the restarted games)
+* `GET /games/numberOfGivenResult?result=$RoundResult`
+    * Service for providing the total number of requested result
+     * RoundResult (DRAW, FIRST_PLAYER_WINS, SECOND_PLAYER_WINS)
 
 
 ### Design Decisions
@@ -40,7 +41,7 @@ starts a new game
   `GameStorage`, composed with Factory Pattern: `GameStorageFactory`) so that one can use a database or a cache instead of a Map.
   
   * It’s considered that there may not be too many rounds in a game. Starting from this idea, 
-  a game is kept in memory until it’s restarted or “numberOfRounds” or “numberOfGivenResult” services are called, after that it will be persisted on which strategy is selected.  
+  a game is kept in memory until it’s restarted or `/games/numberOfRounds` or `/games/numberOfGivenResult` services are called, after that it will be persisted on which strategy is selected.  
 
   * According to the round result, the number of result field (`numberOfRoundsThatFirstUserWins`, `numberOfRoundsThatSecondUserWins` and `numberOfRoundsDrawing` in `Game` class) is increased by one
   for each round creation in order to get total number of rounds in all games or total number of given results (e.g first user wins or draw) with high performance.
