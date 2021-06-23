@@ -3,12 +3,12 @@
 
 This is a web project (only the back-end part, Java 8) for playing random rounds of Rock-Paper-Scissors game.
 
-Rules of the game is below in case you’re not familiar:
+Rules of the game is in case you’re not familiar:
 https://en.wikipedia.org/wiki/Rock_paper_scissors
 
 ### Requirements
 * Creates an automatic round,
-  * The first player's selection is always rock.
+  * The first player's choice is always rock.
   * Second's choice is created randomly.
 * Provides the total number of rounds played (includes the rounds of restarted games).
 * Provides the rounds played: 1st and 2nd players choices
@@ -36,22 +36,22 @@ starts a new game
 
 
 ### Design Decisions
-  Because the task does not include a database, all data is kept in-memory, but persistence mechanism designed with Strategy pattern (
+  * Because the task does not include a database, all data is kept in-memory, but persistence mechanism designed with Strategy pattern (
   `GameStorage`, composed with Factory Pattern: `GameStorageFactory`) so that one can use a database or a cache instead of a Map.
   
-  It’s considered that there may not be too many rounds in a game. Starting from this idea, 
+  * It’s considered that there may not be too many rounds in a game. Starting from this idea, 
   a game is kept in memory until it’s restarted or “numberOfRounds” or “numberOfGivenResult” services are called, after that it will be persisted on which strategy is selected.  
 
-  According to the round result, the number of result field (`numberOfRoundsThatFirstUserWins`, `numberOfRoundsThatSecondUserWins` and `numberOfRoundsDrawing` in `Game` class) is increased by one
+  * According to the round result, the number of result field (`numberOfRoundsThatFirstUserWins`, `numberOfRoundsThatSecondUserWins` and `numberOfRoundsDrawing` in `Game` class) is increased by one
   for each round creation in order to get total number of rounds in all games or total number of given results (e.g first user wins or draw) with high performance.
 
-  To get round results quickly, there’s an ImmutableMap in `GameService` class which key is a list of two GameElements (The binary combination of `ROCK`, `PAPER` and `SCISSORS`) 
+  * To get round results quickly, there’s an ImmutableMap in `GameService` class which key is a list of two GameElements (The binary combination of `ROCK`, `PAPER` and `SCISSORS`) 
   and value is RoundResult (`DRAW`, `FIRST_PLAYER_WINS`, `SECOND_PLAYER_WINS`). Also, in case constant selection of one player changes (for this task is `ROCK` always), 
   there is no need to reconsider the game results by the help of this map and `PREDEFINED_FIRST_USER_SELECTION` constant.
   
-  Random selection of the other player is handled by `getRandomRockPaperScissors()` method of `GameElement` enum. 
+  * Random selection of the other player is handled by `getRandomRockPaperScissors()` method of `GameElement` enum. 
 
-  `RoundResultConverter` utility class is used to convert json string (e.g. `FIRST_PLAYER_WINS`) to `RoundResult` enum
+  * `RoundResultConverter` utility class is used to convert json string (e.g. `FIRST_PLAYER_WINS`) to `RoundResult` enum
   
 
   
