@@ -28,4 +28,8 @@ public class Game {
     public Integer getNumberOfRounds() {
         return rounds.size();
     }
+
+    public int getNumberOfRoundsWithGivenResult(RoundResult result) {
+        return (int) rounds.stream().filter(round -> round.getResult() == result).count();
+    }
 }

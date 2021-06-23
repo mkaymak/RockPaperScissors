@@ -32,19 +32,19 @@ class GameInMemoryStorageTests {
     @Test
     void shouldReturnNumberOfRoundsThatFirstUserWins() {
         saveTwoGamesToStorage();
-        assertEquals(2, storage.getNumberOfGivenResultInWholeGames(RoundResult.FIRST_PLAYER_WINS));
+        assertEquals(2, storage.getNumberOfRoundsWithGivenResultInAllGames(RoundResult.FIRST_PLAYER_WINS));
     }
 
     @Test
     void shouldReturnNumberOfRoundsThatSecondUserWins() {
         saveTwoGamesToStorage();
-        assertEquals(4, storage.getNumberOfGivenResultInWholeGames(RoundResult.SECOND_PLAYER_WINS));
+        assertEquals(4, storage.getNumberOfRoundsWithGivenResultInAllGames(RoundResult.SECOND_PLAYER_WINS));
     }
 
     @Test
     void shouldReturnNumberOfRoundsThatDraw() {
         saveTwoGamesToStorage();
-        assertEquals(2, storage.getNumberOfGivenResultInWholeGames(RoundResult.DRAW));
+        assertEquals(2, storage.getNumberOfRoundsWithGivenResultInAllGames(RoundResult.DRAW));
     }
 
     private void saveTwoGamesToStorage() {

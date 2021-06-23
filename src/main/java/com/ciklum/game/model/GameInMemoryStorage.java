@@ -21,7 +21,7 @@ public class GameInMemoryStorage implements GameStorage {
     }
 
     @Override
-    public Integer getNumberOfGivenResultInWholeGames(RoundResult result) {
+    public Integer getNumberOfRoundsWithGivenResultInAllGames(RoundResult result) {
         if(result == RoundResult.DRAW)
             return gameMap.stream().mapToInt(Game::getNumberOfRoundsDrawing).sum();
         else if (result == RoundResult.FIRST_PLAYER_WINS)

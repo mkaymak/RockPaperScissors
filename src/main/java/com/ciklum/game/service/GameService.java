@@ -28,32 +28,28 @@ public class GameService {
 
     public Game createRound() {
         GameElement secondUserRandomSelection = GameElement.getRandomRockPaperScissors();
-        RoundResult result =
-                (secondUserRandomSelection == PREDEFINED_FIRST_USER_SELECTION) ? RoundResult.DRAW :
-                        possibleGameResults.get(Arrays.asList(PREDEFINED_FIRST_USER_SELECTION, secondUserRandomSelection));
+        RoundResult result = (secondUserRandomSelection == PREDEFINED_FIRST_USER_SELECTION) ? RoundResult.DRAW :
+                    possibleGameResults.get(Arrays.asList(PREDEFINED_FIRST_USER_SELECTION, secondUserRandomSelection));
         Round lastRound = new Round(PREDEFINED_FIRST_USER_SELECTION, secondUserRandomSelection, result);
         game.addRound(lastRound);
         return game;
     }
 
     public void restartGame() {
-        resetOldGame();
+        gameStorage.saveGame(game);
+        game = new Game();
     }
 
     public Integer getTotalRoundsPlayed() {
         if(!game.getRounds().isEmpty())
-            resetOldGame();
+            return gameStorage.getTotalNumberOfRounds() + game.getNumberOfRounds();
         return gameStorage.getTotalNumberOfRounds();
     }
 
     public Integer getNumberOfGivenResultInAllGames(RoundResult result) {
         if(!game.getRounds().isEmpty())
-            resetOldGame();
-        return gameStorage.getNumberOfGivenResultInWholeGames(result);
-    }
-
-    private void resetOldGame() {
-        gameStorage.saveGame(game);
-        game = new Game();
+            return gameStorage.getNumberOfRoundsWithGivenResultInAllGames(result) +
+                                    game.getNumberOfRoundsWithGivenResult(result);
+        return gameStorage.getNumberOfRoundsWithGivenResultInAllGames(result);
     }
 }
